@@ -34,8 +34,20 @@ router.post("/signup", async (req, res) => {
     });
     console.log("User created");
 
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d"
+      }
+    );
+
     res.status(201).json({
       message: "Signup successful",
+      token,
       user
     });
 

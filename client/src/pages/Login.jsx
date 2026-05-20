@@ -8,7 +8,10 @@ function Login() {
 
   const navigate = useNavigate();
 
+  const [isSignup, setIsSignup] = useState(false);
+
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: ""
   });
@@ -22,11 +25,11 @@ function Login() {
 
   };
 
-  const handleLogin = async () => {
+  const handleAuth = async () => {
 
     try {
-
-      const response = await API.post("/auth/login", formData);
+      const endpoint = isSignup ? "/auth/signup" : "/auth/login";
+      const response = await API.post(endpoint, formData);
 
       localStorage.setItem("token", response.data.token);
 
@@ -35,7 +38,7 @@ function Login() {
         JSON.stringify(response.data.user)
       );
 
-      toast.success("Login Successful");
+      toast.success(isSignup ? "Signup Successful" : "Login Successful");
 
       navigate("/dashboard");
 
@@ -43,10 +46,9 @@ function Login() {
 
       console.log(error);
 
-      toast.error("Invalid Credentials");
+      toast.error(isSignup ? "Signup Failed" : "Invalid Credentials");
 
     }
-
   };
 
   return (
@@ -57,16 +59,28 @@ function Login() {
         <div className="text-center mb-8">
 
           <h1 className="text-5xl font-black text-white tracking-wide mb-3">
-            Welcome Back
+            {isSignup ? "Create Account" : "Welcome Back"}
           </h1>
 
           <p className="text-gray-300 text-lg">
-            Login to continue managing your team
+            {isSignup
+              ? "Create your account to start managing projects"
+              : "Login to continue managing your team"}
           </p>
 
         </div>
 
         <div className="space-y-5">
+
+          {isSignup && (
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              className="w-full bg-[#0f172a] border border-gray-700 focus:border-cyan-400 text-white placeholder-gray-400 outline-none p-4 rounded-2xl transition"
+              onChange={handleChange}
+            />
+          )}
 
           <input
             type="email"
@@ -85,11 +99,20 @@ function Login() {
           />
 
           <button
-            onClick={handleLogin}
+            onClick={handleAuth}
             className="w-full bg-cyan-400 hover:bg-cyan-300 text-black font-black text-lg p-4 rounded-2xl transition duration-300 shadow-lg shadow-cyan-500/30"
           >
-            Login
+            {isSignup ? "Create Account" : "Login"}
           </button>
+
+          <p
+            onClick={() => setIsSignup(!isSignup)}
+            className="text-center text-cyan-300 cursor-pointer hover:text-cyan-200 transition"
+          >
+            {isSignup
+              ? "Already have an account? Login"
+              : "Don't have an account? Sign Up"}
+          </p>
 
         </div>
 
