@@ -93,7 +93,23 @@ function Login() {
 
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center space-y-4">
+
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 text-left">
+
+            <p className="text-cyan-300 font-bold mb-2 text-center">
+              Demo Credentials
+            </p>
+
+            <p className="text-gray-300 text-sm">
+              Email: harshit@test.com
+            </p>
+
+            <p className="text-gray-300 text-sm mt-1">
+              Password: 123456
+            </p>
+
+          </div>
 
           <p className="text-gray-400 text-sm">
             Team Task Manager Dashboard
